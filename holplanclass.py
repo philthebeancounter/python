@@ -61,14 +61,14 @@ class Employee(object):
 
 
 
-    def hours(self,Hours,uninque_daily_hours_count):
-        Contracted_hours = {'Monday':7,'Tuesday':8.5,'Wednesday':8.5,'Thursday':8.5,'Friday':8.5,'Saturday':0,'Sunday':0}
-        Daily_hours = []
-        self.Hours = Hours
+    def hours(self,uninque_daily_hours_count):
+
+        #Daily_hours = []
+        #self.Hours = Hours
         self.uninque_daily_hours_count= uninque_daily_hours_count
         Days_worked = 0
         dw = 0
-        for i,v in Contracted_hours.iteritems():
+        for i,v in self.Contracted_hours.iteritems():
             self.Hours = self.Hours + v
 
             Days_worked = Days_worked + dw
@@ -77,10 +77,10 @@ class Employee(object):
             else:
                 dw = 1
             if v > 0:
-                Daily_hours.append(v)
+                self.Daily_hours.append(v)
 
         #test whether the working week is reguar hours or irregular hours
-        uninque_daily_hours = set(Daily_hours)
+        uninque_daily_hours = set(self.Daily_hours)
         self.uninque_daily_hours_count = len(uninque_daily_hours)
         print uninque_daily_hours_count
         if self.uninque_daily_hours_count == 1:
@@ -92,9 +92,12 @@ class Employee(object):
 
 
     def __init__(self,name,company_entitlement):
+        Hours = 0
         self.name = name
         self.company_entitlement = company_entitlement
-
+        self.Hours = Hours
+        self.Daily_hours = []
+        self.Contracted_hours = {'Monday':7,'Tuesday':8.5,'Wednesday':8.5,'Thursday':8.5,'Friday':8.5,'Saturday':0,'Sunday':0}
     #def add_hol(self,days):
         #self.hol_allowance = self.hol_allowance - days
 
@@ -110,7 +113,16 @@ class Employee(object):
 #data.write(str(employee.hol_allowance))
 #print employee.hol_allowance
 
+
+f = open('import.txt',"r")
+line = f.readline()
+while line:
+    print line
+    line = f.readline()
+f.close()
+
 employee = Employee(name_input,company_entitlement)
 print employee.name
-print  "hours", employee.hours(0,0)
+print employee.Contracted_hours
+print  "hours", employee.hours(0)
 print "class calculation", employee.employee_entitlement_irreg_hours()
